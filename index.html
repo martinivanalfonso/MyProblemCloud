@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" 
+      type="image/png" 
+      href="favicon.png">
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/materia/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/946bdf1c6c.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>My Problem Cloud</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1 class="display-4">
+        <i class="fas fa-cloud"></i>
+        My<span class="text-primary">Problem</span>Cloud
+      </h1>
+      <form id="problem-form" autocomplete="off">
+        <div class="form-group mt-5">
+          <label for="detail">Detail</label>
+          <textarea class="form-control" form="problem-form" id="detail" rows=""></textarea>
+        </div>
+        <div class="form-group">
+          <label for="solution">Solution</label>
+          <textarea class="form-control" form="problem-form" id="solution" rows=""></textarea>
+        </div>
+        <div class="form-group">
+          <label for="date">ID</label>
+          <input type="text" id="date" class="form-control" />
+        </div>
+        <input
+          type="submit"
+          value="Add Problem"
+          class="btn btn-primary btn-block"
+        />
+      </form>
+      <table class="table table-striped mt-5" id="problem-list">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Detail</th>
+            <th>Solution</th>
+            <th style="width: 10%;">ID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+
+      <div class="foo" style="text-align: center; margin-top: 150px;">
+        <p class="text-primary">Coded by Martin</p>
+      </div>
+    </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAs8vLsKwpREZfg04pCgGI7BU5LxWy5xm0",
+        authDomain: "myproblemcloud.firebaseapp.com",
+        databaseURL: "https://myproblemcloud.firebaseio.com",
+        projectId: "myproblemcloud",
+        storageBucket: "myproblemcloud.appspot.com",
+        messagingSenderId: "594854415311",
+        appId: "1:594854415311:web:e693192b32ec36720ea0ba"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script type="text/javascript" src="main.js"></script>
+  </body>
+</html>

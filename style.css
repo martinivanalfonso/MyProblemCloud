@@ -1,0 +1,10 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif
+}
+
+textarea[readonly] {
+    border: 0px !important;
+resize: none;
+min-width:100%;
+}

@@ -1,4 +1,4 @@
-// Problem Class: Represents a Problem
+// Problem Class: Represents a Logic Problem
 class Problem {
   constructor(detail, solution, date) {
     this.detail = detail;
@@ -6,17 +6,15 @@ class Problem {
     this.date = date;
   }
 }
-// UI Class: Handle UI Tasks
 
+// UI Class: Handle UI Tasks
 class UI {
-  static displayProblems() {
-    const storedProblems = Store.getProblems();
-    storedProblems.then(problems => {
-      problems.forEach(problem => UI.addProblemToList(problem.val()));
-    });
+  static async displayProblems() {
+    const storedProblems = await Store.getProblems();
+    storedProblems.forEach((problem) => UI.addProblemToList(problem.val()));
   }
   static addProblemToList(problem) {
-    const list = document.querySelector("#problem-list");
+    const list = document.getElementById("problem-list");
 
     const row = document.createElement("tr");
     // Adjusts display of solution in the table
@@ -35,7 +33,6 @@ class UI {
   static showAlert(message, className) {
     const div = document.createElement("div");
     div.className = `alert alert-${className}`;
-    div.id;
     div.appendChild(document.createTextNode(message));
     const container = document.querySelector(".container");
     const form = document.querySelector("#problem-form");
@@ -44,13 +41,13 @@ class UI {
   }
 
   static clearFields() {
-    document.querySelector("#detail").value = "";
-    document.querySelector("#solution").value = "";
-    document.querySelector("#date").value = "";
+    document.getElementById("detail").value = "";
+    document.getElementById("solution").value = "";
+    document.getElementById("date").value = "";
   }
 
-  static deleteProblem(el) {
-    el.parentElement.parentElement.remove();
+  static deleteProblem(elem) {
+    elem.parentElement.parentElement.remove();
   }
 }
 
@@ -61,56 +58,65 @@ class Store {
     return firebase
       .database()
       .ref()
-      .once("value");
+      .once("value")
+      .then((data) => data);
   }
   static addProblemToDb(problem) {
-    firebase
-      .database()
-      .ref()
-      .push()
-      .set(problem);
+    firebase.database().ref().push().set(problem);
   }
   static deleteProblem(target) {
     const id = target.parentElement.previousElementSibling.innerHTML;
     const problems = Store.getProblems();
 
-    problems.then(problems => {
-      problems.forEach(problem => {
-        if (problem.val().date == id) {
-          firebase
-            .database()
-            .ref(problem.key)
-            .remove();
+    problems.then((problems) => {
+      problems.forEach((problem) => {
+        if (problem.val().date === id) {
+          firebase.database().ref(problem.key).remove();
         }
       });
     });
   }
 }
+
+// Detects Device Type
+
+const detectIfMobile = () =>
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  )
+    ? true
+    : false;
+
+if (detectIfMobile())
+  UI.showAlert(
+    "Sorry this website is not completely mobile friendly",
+    "danger"
+  );
+
 // Event: Grows active form input
-document.querySelector("#detail").addEventListener("focus", e => {
+document.querySelector("#detail").addEventListener("focus", (e) => {
   console.log(e.target);
   e.target.setAttribute("rows", "10");
 });
-document.querySelector("#solution").addEventListener("focus", e => {
+document.querySelector("#solution").addEventListener("focus", (e) => {
   console.log(e.target);
   e.target.setAttribute("rows", "10");
 });
 
-document.querySelector("#detail").addEventListener("blur", e => {
+document.querySelector("#detail").addEventListener("blur", (e) => {
   console.log(e.target);
   e.target.setAttribute("rows", "1");
 });
-document.querySelector("#solution").addEventListener("blur", e => {
+document.querySelector("#solution").addEventListener("blur", (e) => {
   console.log(e.target);
   e.target.setAttribute("rows", "1");
 });
 
-document.querySelector;
 // Event: Display Problems()
 document.addEventListener("DOMContentLoaded", UI.displayProblems);
 
 // Event: Add a Problem
-document.querySelector("#problem-form").addEventListener("submit", e => {
+document.querySelector("#problem-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
   const detail = document.querySelector("#detail").value;
@@ -132,7 +138,7 @@ document.querySelector("#problem-form").addEventListener("submit", e => {
 
 // Event: Remove a problem
 
-document.querySelector("#problem-list").addEventListener("click", e => {
+document.querySelector("#problem-list").addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
     UI.deleteProblem(e.target);
     Store.deleteProblem(e.target);
